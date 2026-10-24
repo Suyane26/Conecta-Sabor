@@ -61,54 +61,6 @@ O **Conecta Sabor** centraliza tudo em um único fluxo: do pedido (no salão, pa
 
 **Status do pedido:** `recebido` → `em_preparo` → `pronto` → `saiu_entrega` → `entregue` (ou `cancelado`).
 
-## Como executar
-
-**Pré-requisitos:** [Node.js](https://nodejs.org/) (versão LTS) e um projeto criado no Firebase com Authentication (e-mail/senha) e Firestore ativados.
-
-```bash
-# 1. Clone o repositório
-git clone <URL-DO-REPOSITORIO>
-cd <NOME-DA-PASTA>
-
-# 2. Instale as dependências
-npm install
-
-# 3. Configure as variáveis de ambiente (veja abaixo)
-
-# 4. Rode o projeto
-npm run dev
-```
-
-### Variáveis de ambiente
-
-Crie um arquivo `.env` na raiz do projeto com as chaves do seu app Firebase:
-
-```env
-VITE_API_KEY=
-VITE_AUTH_DOMAIN=
-VITE_PROJECT_ID=
-VITE_STORAGE_BUCKET=
-VITE_MESSAGING_SENDER_ID=
-VITE_APP_ID=
-```
-
-## Estrutura de pastas
-
-```
-src/
-├── components/   # Componentes reutilizáveis
-├── contexts/     # Contextos (ex.: autenticação)
-├── pages/        # Telas da aplicação
-├── services/     # Acesso ao Firebase/Firestore
-└── firebase.js   # Configuração do Firebase
-```
-
-## Fluxo de trabalho
-
-- A branch `main` contém sempre a versão estável.
-- Cada funcionalidade é desenvolvida em uma branch própria (`feature/nome-da-funcionalidade`).
-- As alterações entram na `main` por **Pull Request**, revisado por outro integrante.
-- Mensagens de commit seguem o padrão `feat:`, `fix:` ou `docs:`.
 
 ## Gestão do projeto
 
