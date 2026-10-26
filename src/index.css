@@ -1,0 +1,486 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Cores do projeto */
+  --cs-marrom: #5a372c;
+  --cs-oliva: #8b8b70;
+  --cs-menta: #98c7b0;
+  --cs-creme: #f0f0d8;
+  --cs-laranja: #c94b0c;
+
+  /* Cores derivadas da paleta */
+  --cs-laranja-escuro: color-mix(in srgb, var(--cs-laranja) 82%, #000);
+  --cs-borda: color-mix(in srgb, var(--cs-oliva) 40%, var(--cs-creme));
+  --cs-superficie: #ffffff;
+  --cs-sombra: 0 2px 12px rgba(90, 55, 44, 0.08);
+
+  color-scheme: light;
+
+  /* Variáveis do Bootstrap trocadas pelas do projeto */
+  --bs-body-font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --bs-body-bg: #f0f0d8;
+  --bs-body-bg-rgb: 240, 240, 216;
+  --bs-body-color: #5a372c;
+  --bs-body-color-rgb: 90, 55, 44;
+  --bs-heading-color: #5a372c;
+  --bs-secondary-color: rgba(90, 55, 44, 0.75);
+  --bs-border-color: var(--cs-borda);
+  --bs-border-radius: 0.75rem;
+  --bs-border-radius-lg: 1rem;
+
+  --bs-primary: #c94b0c;
+  --bs-primary-rgb: 201, 75, 12;
+  --bs-secondary: #5a372c;
+  --bs-secondary-rgb: 90, 55, 44;
+  --bs-success: #98c7b0;
+  --bs-success-rgb: 152, 199, 176;
+  --bs-light-rgb: 240, 240, 216;
+  --bs-dark-rgb: 90, 55, 44;
+
+  --bs-link-color: #c94b0c;
+  --bs-link-color-rgb: 201, 75, 12;
+  --bs-link-hover-color: #a53d09;
+  --bs-link-hover-color-rgb: 165, 61, 10;
+}
+
+/* ---------- 2. Base ---------- */
+body {
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--cs-menta);
+  color: var(--cs-marrom);
+}
+
+/* ---------- 3. Botões ---------- */
+.btn {
+  font-weight: 500;
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--cs-laranja);
+  --bs-btn-border-color: var(--cs-laranja);
+  --bs-btn-hover-bg: var(--cs-laranja-escuro);
+  --bs-btn-hover-border-color: var(--cs-laranja-escuro);
+  --bs-btn-active-bg: var(--cs-laranja-escuro);
+  --bs-btn-active-border-color: var(--cs-laranja-escuro);
+  --bs-btn-disabled-bg: var(--cs-laranja);
+  --bs-btn-disabled-border-color: var(--cs-laranja);
+  --bs-btn-focus-shadow-rgb: 201, 75, 12;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--cs-laranja);
+  --bs-btn-border-color: var(--cs-laranja);
+  --bs-btn-hover-bg: var(--cs-laranja);
+  --bs-btn-hover-border-color: var(--cs-laranja);
+  --bs-btn-active-bg: var(--cs-laranja-escuro);
+  --bs-btn-active-border-color: var(--cs-laranja-escuro);
+  --bs-btn-disabled-color: var(--cs-laranja);
+  --bs-btn-disabled-border-color: var(--cs-laranja);
+  --bs-btn-focus-shadow-rgb: 201, 75, 12;
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: var(--cs-marrom);
+  --bs-btn-border-color: var(--cs-oliva);
+  --bs-btn-hover-color: var(--cs-marrom);
+  --bs-btn-hover-bg: var(--cs-creme);
+  --bs-btn-hover-border-color: var(--cs-marrom);
+  --bs-btn-active-color: var(--cs-marrom);
+  --bs-btn-active-bg: var(--cs-creme);
+  --bs-btn-active-border-color: var(--cs-marrom);
+  --bs-btn-disabled-color: var(--cs-oliva);
+  --bs-btn-disabled-border-color: var(--cs-oliva);
+  --bs-btn-focus-shadow-rgb: 90, 55, 44;
+}
+
+.btn-success {
+  --bs-btn-color: var(--cs-marrom);
+  --bs-btn-bg: var(--cs-menta);
+  --bs-btn-border-color: var(--cs-menta);
+  --bs-btn-hover-color: var(--cs-marrom);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--cs-menta) 82%, #000);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--cs-menta) 82%, #000);
+  --bs-btn-active-color: var(--cs-marrom);
+  --bs-btn-active-bg: color-mix(in srgb, var(--cs-menta) 75%, #000);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--cs-menta) 75%, #000);
+  --bs-btn-focus-shadow-rgb: 152, 199, 176;
+}
+
+.btn-link {
+  --bs-btn-color: var(--cs-laranja);
+  --bs-btn-hover-color: var(--cs-laranja-escuro);
+  --bs-btn-active-color: var(--cs-laranja-escuro);
+}
+
+/* ---------- 4. Formulários ---------- */
+.form-label {
+  font-weight: 500;
+}
+
+.form-control,
+.form-select {
+  background-color: #fff;
+  border-color: var(--cs-borda);
+  color: var(--cs-marrom);
+}
+
+.form-control::placeholder {
+  color: var(--cs-oliva);
+  opacity: 1;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--cs-laranja);
+  box-shadow: 0 0 0 0.25rem rgba(201, 75, 12, 0.2);
+}
+
+.form-control[readonly] {
+  background-color: color-mix(in srgb, var(--cs-creme) 45%, #fff);
+}
+
+.form-check-input:checked {
+  background-color: var(--cs-laranja);
+  border-color: var(--cs-laranja);
+}
+
+.form-check-input:focus {
+  border-color: var(--cs-laranja);
+  box-shadow: 0 0 0 0.25rem rgba(201, 75, 12, 0.2);
+}
+
+/* ---------- 5. Cards, alertas, badges e carregamento ---------- */
+.card {
+  --bs-card-bg: var(--cs-superficie);
+  --bs-card-border-color: var(--cs-borda);
+  --bs-card-cap-bg: color-mix(in srgb, var(--cs-creme) 55%, #fff);
+  --bs-card-cap-color: var(--cs-marrom);
+  box-shadow: var(--cs-sombra);
+}
+
+.card-header {
+  font-weight: 600;
+}
+
+/* Cards clicáveis (ex.: escolha do tipo de cadastro) */
+.card[role="button"] {
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card[role="button"]:hover {
+  transform: translateY(-2px);
+  border-color: var(--cs-laranja);
+  box-shadow: 0 6px 18px rgba(201, 75, 12, 0.15);
+}
+
+.alert-success,
+.alert-info {
+  --bs-alert-color: var(--cs-marrom);
+  --bs-alert-bg: color-mix(in srgb, var(--cs-menta) 35%, #fff);
+  --bs-alert-border-color: var(--cs-menta);
+}
+
+.badge {
+  font-weight: 500;
+}
+
+.spinner-border {
+  color: var(--cs-laranja);
+}
+
+.list-group {
+  --bs-list-group-border-color: var(--cs-borda);
+}
+
+/* ---------- 6. Componentes prontos para as próximas telas ---------- */
+
+/* Faixa de destaque (promoção, aviso) */
+.cs-faixa {
+  background: var(--cs-laranja);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Barra superior escura do painel */
+.cs-topo {
+  background: var(--cs-marrom);
+  color: var(--cs-creme);
+}
+
+/* Abas de categorias do cardápio */
+.cs-categorias {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: thin;
+}
+
+.cs-chip {
+  flex: 0 0 auto;
+  background: #fff;
+  color: var(--cs-marrom);
+  border: 1px solid var(--cs-borda);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.cs-chip:hover {
+  border-color: var(--cs-laranja);
+}
+
+.cs-chip.ativo {
+  color: var(--cs-laranja);
+  border-color: var(--cs-laranja);
+  background: color-mix(in srgb, var(--cs-laranja) 8%, #fff);
+}
+
+/* Item do cardápio */
+.cs-produto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid var(--cs-borda);
+  border-radius: var(--bs-border-radius);
+  padding: 0.9rem;
+  box-shadow: var(--cs-sombra);
+}
+
+.cs-produto img {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 0.6rem;
+  flex-shrink: 0;
+}
+
+.cs-produto-nome {
+  font-weight: 600;
+  margin: 0;
+}
+
+.cs-produto-desc {
+  color: var(--bs-secondary-color);
+  font-size: 0.8125rem;
+  margin: 0.15rem 0 0.4rem;
+}
+
+.cs-preco {
+  color: var(--cs-laranja);
+  font-weight: 700;
+}
+
+.cs-preco-antigo {
+  color: var(--cs-oliva);
+  font-size: 0.8125rem;
+  text-decoration: line-through;
+  margin-left: 0.4rem;
+}
+
+/* Botão quadrado de adicionar ao carrinho */
+.cs-botao-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--cs-laranja);
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.cs-botao-add:hover {
+  background: var(--cs-laranja-escuro);
+}
+
+/* Coluna do painel de pedidos */
+.cs-coluna {
+  background: color-mix(in srgb, var(--cs-creme) 60%, #fff);
+  border: 1px solid var(--cs-borda);
+  border-radius: var(--bs-border-radius);
+  padding: 0.75rem;
+}
+
+/* Etiquetas de status do pedido: use class="cs-status cs-status-{status}" */
+.cs-status {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.cs-status-recebido {
+  background: var(--cs-creme);
+  color: var(--cs-marrom);
+  border: 1px solid var(--cs-oliva);
+}
+
+.cs-status-em_preparo {
+  background: color-mix(in srgb, var(--cs-laranja) 14%, #fff);
+  color: var(--cs-laranja-escuro);
+}
+
+.cs-status-pronto {
+  background: var(--cs-menta);
+  color: var(--cs-marrom);
+}
+
+.cs-status-saiu_entrega {
+  background: var(--cs-marrom);
+  color: var(--cs-creme);
+}
+
+.cs-status-entregue {
+  background: color-mix(in srgb, var(--cs-menta) 30%, #fff);
+  color: var(--cs-marrom);
+  border: 1px solid var(--cs-menta);
+}
+
+.cs-status-cancelado {
+  background: #fff;
+  color: var(--cs-marrom);
+  border: 1px dashed var(--cs-oliva);
+}
+/* ---------- 7. Cardápio ---------- */
+.cs-secao-titulo {
+  color: var(--cs-laranja);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.cs-produto {
+  align-items: flex-start;
+  height: 100%;
+}
+
+.cs-produto-corpo {
+  flex: 1;
+  min-width: 0;
+}
+
+.cs-produto-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.cs-produto-sem-foto {
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.6rem;
+  background: var(--cs-creme);
+  color: var(--cs-oliva);
+  font-size: 0.6875rem;
+  text-align: center;
+}
+
+.cs-produto.indisponivel img,
+.cs-produto.indisponivel .cs-produto-info {
+  opacity: 0.55;
+}
+
+.cs-produto.indisponivel img {
+  filter: grayscale(1);
+}
+
+.cs-botao-add {
+  align-self: flex-end;
+  flex-shrink: 0;
+}
+
+.cs-selo {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.35rem;
+  background: var(--cs-laranja);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.cs-selo-combo {
+  background: var(--cs-marrom);
+  color: var(--cs-creme);
+}
+
+.cs-selo-off {
+  background: #fff;
+  color: var(--cs-marrom);
+  border: 1px solid var(--cs-oliva);
+}
+/* ---------- 8. Pedidos, cozinha e mesas ---------- */
+.cs-pedido {
+  background: #fff;
+  border: 1px solid var(--cs-borda);
+  border-radius: 0.6rem;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--cs-sombra);
+}
+
+.cs-pedido-atrasado {
+  border-color: var(--bs-danger);
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+}
+
+.cs-obs {
+  background: color-mix(in srgb, var(--cs-laranja) 10%, #fff);
+  border-left: 3px solid var(--cs-laranja);
+  border-radius: 0.25rem;
+  padding: 0.15rem 0.5rem;
+  margin-top: 0.15rem;
+  font-size: 0.8125rem;
+}
+
+.cs-selo-atrasado {
+  background: var(--bs-danger);
+  color: #fff;
+}
+
+.cs-selo-livre {
+  background: var(--cs-menta);
+  color: var(--cs-marrom);
+}
+
+.cs-status-finalizado {
+  background: color-mix(in srgb, var(--cs-menta) 30%, #fff);
+  color: var(--cs-marrom);
+  border: 1px solid var(--cs-menta);
+}
+
+.cs-mesa.livre {
+  border-color: var(--cs-menta);
+}
+
+.cs-mesa.ocupada {
+  border-color: var(--cs-laranja);
+  background: color-mix(in srgb, var(--cs-laranja) 8%, #fff);
+}

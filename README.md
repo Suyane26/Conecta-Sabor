@@ -1,19 +1,3 @@
-# Conecta Sabor
-
-Plataforma web e mobile (responsiva) para gestão de pedidos, mesas, cozinha e entregas de restaurantes.
-
-Projeto acadêmico da disciplina **Desenvolvimento Web** — Universidade de Fortaleza (UNIFOR), Centro de Ciências Tecnológicas.
-
----
-
-## Sobre o projeto
-
-Pequenos restaurantes costumam controlar pedidos e entregas manualmente, por WhatsApp e papel. Isso gera erros de pedido, falta de visibilidade do status e nenhum controle de vendas.
-
-O **Conecta Sabor** centraliza tudo em um único fluxo: do pedido (no salão, para retirada ou para entrega) ao preparo na cozinha, à entrega e à emissão de nota fiscal simulada.
-
-**Diferencial:** não cobra comissão por pedido e funciona como canal próprio do restaurante, sem concorrentes na mesma vitrine.
-
 ## Perfis de usuário
 
 | Perfil | Plataforma | O que faz |
