@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
+import { Container, Spinner, Button } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 
-export default function RotaProtegida({ children, perfis, semPerfil = false }) {
-  const { usuario, dados, carregandoDados } = useAuth();
+export default function RotaProtegida({ children, perfis }) {
+  const { usuario, dados, carregandoDados, sair } = useAuth();
 
   if (!usuario) {
     return <Navigate to="/login" replace />;
@@ -17,16 +17,17 @@ export default function RotaProtegida({ children, perfis, semPerfil = false }) {
     );
   }
 
-  if (semPerfil) {
-    return children;
-  }
-
   if (!dados) {
-    return <Navigate to="/escolher-perfil" replace />;
-  }
-
-  if (dados.status === "pendente") {
-    return <Navigate to="/aguardando" replace />;
+    return (
+      <Container className="py-5 text-center" style={{ maxWidth: "460px" }}>
+        <h5>Cadastro incompleto</h5>
+        <p className="text-muted">
+          Não encontramos os dados desta conta. Saia e crie sua conta
+          escolhendo o seu tipo de usuário.
+        </p>
+        <Button onClick={sair}>Sair</Button>
+      </Container>
+    );
   }
 
   if (perfis && !perfis.includes(dados.perfil)) {
