@@ -14,7 +14,7 @@ import GestaoCardapio from "./pages/GestaoCardapio";
 import PainelPedidos from "./pages/PainelPedidos";
 import Mesas from "./pages/Mesas";
 import Cozinha from "./pages/Cozinha";
-
+import AlertaNotificacao from "./components/AlertaNotificacao";
 
 function Destino() {
   const { perfil } = useAuth();
@@ -51,6 +51,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <AlertaNotificacao />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
@@ -111,7 +112,7 @@ export default function App() {
             }
           />
           
-          {/* Rota corrigida para carregar o componente Entregador */}
+          {/* Rota para carregar o componente Entregador */}
           <Route
             path="/entregador"
             element={
