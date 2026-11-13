@@ -484,3 +484,69 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--cs-laranja);
   background: color-mix(in srgb, var(--cs-laranja) 8%, #fff);
 }
+/* ---------- 9. Carrinho Mobile ---------- */
+.cs-btn-flutuante {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1050;
+  width: calc(100% - 2rem);
+  max-width: 460px;
+  box-shadow: 0 4px 12px rgba(201, 75, 12, 0.35);
+  border-radius: var(--bs-border-radius);
+}
+
+.cs-btn-flutuante button {
+  border-radius: var(--bs-border-radius);
+}
+/* ---------- 10. Telas Fullscreen Mobile (Estilo Aplicativo) ---------- */
+.cs-modal-app .modal-content {
+  background-color: #f4f4f4;
+  border: none;
+  border-radius: 0;
+}
+.cs-tela-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f4f4f4;
+}
+.cs-header-app {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1055;
+}
+.cs-body-app {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+.cs-body-app.pb-carrinho {
+  padding-bottom: 130px; /* espaço extra para rodapé duplo */
+}
+.cs-body-app.pb-footer {
+  padding-bottom: 90px; /* espaço extra para rodapé simples */
+}
+.cs-box {
+  background: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.cs-footer-app {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  padding: 1rem;
+  border-top: 1px solid var(--cs-borda);
+  z-index: 1055;
+}
