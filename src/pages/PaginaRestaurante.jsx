@@ -9,6 +9,7 @@ import { formatarPreco } from "../utils/formatar";
 import { precoEfetivo } from "../utils/pedidos";
 import CardapioCliente from "../components/CardapioCliente";
 import CarrinhoCliente from "../components/CarrinhoCliente";
+import StatusPedido from "../components/StatusPedido";
 
 export default function PaginaRestaurante() {
   const { restauranteId } = useParams();
@@ -21,6 +22,9 @@ export default function PaginaRestaurante() {
   
   const [carrinho, setCarrinho] = useState([]);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
+
+  const [pedidoAtivoId, setPedidoAtivoId] = useState(localStorage.getItem("cs_pedido_ativo") || null);
+  const [mostrarStatus, setMostrarStatus] = useState(false);
 
   useEffect(() => {
     async function carregar() {
@@ -109,7 +113,7 @@ export default function PaginaRestaurante() {
         </Container>
       </div>
 
-      <Container className="py-4 position-relative">
+      <Container className="py-4 position-relative" style={{ paddingBottom: "140px" }}>
         {aviso && (
           <Alert variant="success" dismissible onClose={() => setAviso("")}>
             {aviso}
@@ -120,6 +124,19 @@ export default function PaginaRestaurante() {
           restauranteId={restauranteId}
           onAdicionar={adicionarAoCarrinho}
         />
+
+        {pedidoAtivoId && (
+          <div className="cs-btn-flutuante" style={{ bottom: carrinho.length > 0 ? "5.5rem" : "1.5rem" }}>
+            <Button 
+              variant="success" 
+              className="w-100 d-flex justify-content-center align-items-center py-3 fw-bold border-0"
+              style={{ backgroundColor: "var(--cs-menta)", color: "var(--cs-marrom)" }}
+              onClick={() => setMostrarStatus(true)}
+            >
+              ⏱️ Acompanhar Meu Pedido
+            </Button>
+          </div>
+        )}
 
         {carrinho.length > 0 && (
           <div className="cs-btn-flutuante">
@@ -141,9 +158,21 @@ export default function PaginaRestaurante() {
           restauranteId={restauranteId}
           carrinho={carrinho}
           setCarrinho={setCarrinho}
-          onFinalizado={() => {
-            setAviso("Pedido enviado com sucesso! Acompanhe pelo restaurante.");
-            setTimeout(() => setAviso(""), 5000);
+          onFinalizado={(id) => {
+            setPedidoAtivoId(id);
+            localStorage.setItem("cs_pedido_ativo", id);
+            setMostrarStatus(true);
+          }}
+        />
+
+        <StatusPedido
+          show={mostrarStatus}
+          onHide={() => setMostrarStatus(false)}
+          pedidoId={pedidoAtivoId}
+          onLimpar={() => {
+            setPedidoAtivoId(null);
+            localStorage.removeItem("cs_pedido_ativo");
+            setMostrarStatus(false);
           }}
         />
       </Container>

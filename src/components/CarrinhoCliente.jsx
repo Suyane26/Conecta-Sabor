@@ -103,14 +103,16 @@ export default function CarrinhoCliente({
     setSalvando(true);
     try {
       const lote = writeBatch(db);
-      lote.set(doc(collection(db, "pedidos")), pedido);
+      // Mantendo a lógica de retornar o ID do pedido gerado para o acompanhamento funcionar
+      const novoPedidoRef = doc(collection(db, "pedidos"));
+      lote.set(novoPedidoRef, pedido);
       await lote.commit();
       
       // Limpa tudo após o sucesso
       setCarrinho([]);
       setPasso(1);
       setObservacoesGerais("");
-      onFinalizado();
+      onFinalizado(novoPedidoRef.id);
       fechar();
     } catch (err) {
       setErro("Não foi possível enviar o pedido. Tente novamente.");
