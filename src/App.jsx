@@ -1,3 +1,4 @@
+import Entregador from "./pages/Entregador";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import RotaProtegida from "./components/RotaProtegida";
@@ -13,7 +14,7 @@ import GestaoCardapio from "./pages/GestaoCardapio";
 import PainelPedidos from "./pages/PainelPedidos";
 import Mesas from "./pages/Mesas";
 import Cozinha from "./pages/Cozinha";
-import EmConstrucao from "./pages/EmConstrucao";
+import AlertaNotificacao from "./components/AlertaNotificacao";
 
 function Destino() {
   const { perfil } = useAuth();
@@ -50,6 +51,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <AlertaNotificacao />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
@@ -109,11 +111,13 @@ export default function App() {
               </RotaProtegida>
             }
           />
+          
+          {/* Rota para carregar o componente Entregador */}
           <Route
             path="/entregador"
             element={
-              <RotaProtegida perfis={["entregador"]}>
-                <EmConstrucao titulo="Área do entregador" />
+              <RotaProtegida perfis={["dono", "entregador"]}>
+                <Entregador />
               </RotaProtegida>
             }
           />
