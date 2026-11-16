@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
     "firebase": "^13.1.0",
+    "mysql2": "^3.24.6",
     "qrcode.react": "^4.2.0",
     "react": "^19.3.1",
     "react-bootstrap": "^2.10.10",
@@ -24,5 +28,18 @@
     "@vitejs/plugin-react": "^6.1.2",
     "oxlint": "^1.88.0",
     "vite": "^8.3.4"
-  }
+  },
+  "description": "Plataforma web (responsiva, também usada no celular) para gestão de **pedidos, mesas, cozinha, cardápio e entregas** de restaurantes de pequeno porte.",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Suyane26/Conecta-Sabor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Suyane26/Conecta-Sabor/issues"
+  },
+  "homepage": "https://github.com/Suyane26/Conecta-Sabor#readme"
 }
