@@ -1,7 +1,13 @@
 import { formatarPreco } from "../utils/formatar";
 import { TEMPO_META_MIN, minutosDecorridos, tituloPedido } from "../utils/pedidos";
 
-export default function CartaoPedido({ pedido, agora, mostrarTotal = false, acoes }) {
+export default function CartaoPedido({
+  pedido,
+  agora,
+  mostrarTotal = false,
+  ocultarEntregador = false,
+  acoes,
+}) {
   const minutos = minutosDecorridos(pedido, agora);
   const naCozinha = pedido.status === "recebido" || pedido.status === "em_preparo";
   const atrasado = naCozinha && minutos >= TEMPO_META_MIN;
@@ -30,14 +36,14 @@ export default function CartaoPedido({ pedido, agora, mostrarTotal = false, acoe
         <div className="cs-obs mb-2">Obs. do pedido: {pedido.observacoes}</div>
       )}
 
-      {pedido.tipo === "entrega" && (
+      {pedido.tipo === "entrega" && !ocultarEntregador && (
         <div className="small text-muted">
           {pedido.endereco}
           {pedido.clienteTelefone && ` · ${pedido.clienteTelefone}`}
         </div>
       )}
 
-      {pedido.entregadorNome && (
+      {pedido.entregadorNome && !ocultarEntregador && (
         <div className="small">Entregador: {pedido.entregadorNome}</div>
       )}
 
