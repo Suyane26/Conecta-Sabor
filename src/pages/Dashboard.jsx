@@ -14,6 +14,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
+import RelatoriosModal from "../components/RelatoriosModal";
 
 const FUNCIONALIDADES = {
   dono: [
@@ -21,7 +22,7 @@ const FUNCIONALIDADES = {
     { nome: "Painel de pedidos", rota: "/painel/pedidos" },
     { nome: "Mesas", rota: "/painel/mesas" },
     { nome: "Cozinha", rota: "/painel/cozinha" },
-    { nome: "Relatórios" },
+    { nome: "Relatórios", acao: "relatorios" },
   ],
   funcionario: [
     { nome: "Disponibilidade do cardápio", rota: "/painel/cardapio" },
@@ -46,6 +47,7 @@ export default function Dashboard() {
   const { usuario, dados, sair } = useAuth();
   const [restaurante, setRestaurante] = useState(null);
   const [copiado, setCopiado] = useState("");
+  const [mostrarRelatorios, setMostrarRelatorios] = useState(false);
   const qrRef = useRef(null);
 
   useEffect(() => {
@@ -166,6 +168,10 @@ export default function Dashboard() {
                   <Button as={Link} to={f.rota} size="sm">
                     Abrir
                   </Button>
+                ) : f.acao === "relatorios" ? (
+                  <Button size="sm" onClick={() => setMostrarRelatorios(true)}>
+                    Abrir
+                  </Button>
                 ) : (
                   <Badge bg="light" text="dark">
                     Em breve
@@ -176,6 +182,13 @@ export default function Dashboard() {
           </Col>
         ))}
       </Row>
+
+      <RelatoriosModal
+        show={mostrarRelatorios}
+        onHide={() => setMostrarRelatorios(false)}
+        restauranteId={dados.restauranteId}
+        nomeRestaurante={restaurante?.nome}
+      />
     </Container>
   );
 }
