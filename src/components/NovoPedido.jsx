@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Form, Button, Alert, Row, Col } from "react-bootstrap";
+import { Modal, Form, Button, Alert, Row, Col, Spinner } from "react-bootstrap";
 import {
   collection,
   doc,
@@ -22,7 +22,14 @@ function FormularioPedido({ restauranteId, mesaFixa, onHide, onCriado }) {
   const [tipo, setTipo] = useState(mesa ? "mesa" : "retirada");
   const [clienteNome, setClienteNome] = useState("");
   const [clienteTelefone, setClienteTelefone] = useState("");
-  const [endereco, setEndereco] = useState("");
+  const [cep, setCep] = useState("");
+  const [rua, setRua] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [numero, setNumero] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [buscandoCep, setBuscandoCep] = useState(false);
+  const [avisoCep, setAvisoCep] = useState("");
   const [observacoes, setObservacoes] = useState("");
   const [qtds, setQtds] = useState({});
   const [obs, setObs] = useState({});
@@ -51,6 +58,35 @@ function FormularioPedido({ restauranteId, mesaFixa, onHide, onCriado }) {
     );
   }, [restauranteId]);
 
+  async function buscarCepAutomatico(valorCep) {
+    const digitos = valorCep.replace(/\D/g, "").slice(0, 8);
+    const formatado =
+      digitos.length > 5 ? `${digitos.slice(0, 5)}-${digitos.slice(5)}` : digitos;
+    setCep(formatado);
+    setAvisoCep("");
+
+    if (digitos.length !== 8) return;
+
+    setBuscandoCep(true);
+    try {
+      const resp = await fetch(`https://viacep.com.br/ws/${digitos}/json/`);
+      const dadosCep = await resp.json();
+      if (dadosCep.erro) {
+        setAvisoCep("CEP não encontrado. Preencha o endereço manualmente.");
+        return;
+      }
+      if (dadosCep.logradouro) setRua(dadosCep.logradouro);
+      if (dadosCep.bairro) setBairro(dadosCep.bairro);
+      if (dadosCep.localidade) {
+        setCidade(dadosCep.uf ? `${dadosCep.localidade}/${dadosCep.uf}` : dadosCep.localidade);
+      }
+    } catch {
+      setAvisoCep("Não foi possível consultar o CEP agora.");
+    } finally {
+      setBuscandoCep(false);
+    }
+  }
+
   function ajustar(id, delta) {
     setQtds((q) => ({ ...q, [id]: Math.max(0, (q[id] || 0) + delta) }));
   }
@@ -71,8 +107,15 @@ function FormularioPedido({ restauranteId, mesaFixa, onHide, onCriado }) {
     if (tipo !== "mesa" && !clienteNome.trim()) {
       return setErro("Informe o nome do cliente.");
     }
-    if (tipo === "entrega" && (!endereco.trim() || !clienteTelefone.trim())) {
-      return setErro("Informe o endereço e o telefone para a entrega.");
+
+    let enderecoCompleto = null;
+    if (tipo === "entrega") {
+      if (!rua.trim() || !numero.trim() || !bairro.trim() || !cidade.trim() || !clienteTelefone.trim()) {
+        return setErro("Informe telefone, rua, número, bairro e cidade para a entrega.");
+      }
+      enderecoCompleto = `${rua.trim()}, ${numero.trim()} - ${bairro.trim()}, ${cidade.trim()}`;
+      if (complemento.trim()) enderecoCompleto += ` (${complemento.trim()})`;
+      if (cep.trim()) enderecoCompleto += ` - CEP: ${cep.trim()}`;
     }
 
     const itens = selecionados.map((i) => ({
@@ -112,7 +155,7 @@ function FormularioPedido({ restauranteId, mesaFixa, onHide, onCriado }) {
     } else {
       pedido.clienteNome = clienteNome.trim();
       pedido.clienteTelefone = clienteTelefone.trim() || null;
-      if (tipo === "entrega") pedido.endereco = endereco.trim();
+      if (tipo === "entrega") pedido.endereco = enderecoCompleto;
     }
 
     setSalvando(true);
@@ -180,14 +223,78 @@ function FormularioPedido({ restauranteId, mesaFixa, onHide, onCriado }) {
             </Row>
 
             {tipo === "entrega" && (
-              <Form.Group className="mb-3" controlId="endereco">
-                <Form.Label>Endereço de entrega</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={endereco}
-                  onChange={(e) => setEndereco(e.target.value)}
-                />
-              </Form.Group>
+              <div className="border rounded-3 p-3 mb-3 bg-light">
+                <Form.Group className="mb-3" controlId="cepNovoPedido">
+                  <Form.Label>CEP</Form.Label>
+                  <div className="d-flex align-items-center gap-2">
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite 8 números para buscar a rua"
+                      value={cep}
+                      onChange={(e) => buscarCepAutomatico(e.target.value)}
+                      maxLength={9}
+                    />
+                    {buscandoCep && <Spinner animation="border" size="sm" />}
+                  </div>
+                  {avisoCep && <Form.Text className="text-warning-emphasis">{avisoCep}</Form.Text>}
+                </Form.Group>
+
+                <Row>
+                  <Col xs={12} md={8}>
+                    <Form.Group className="mb-3" controlId="ruaNovoPedido">
+                      <Form.Label>Rua</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={rua}
+                        onChange={(e) => setRua(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col xs={12} md={4}>
+                    <Form.Group className="mb-3" controlId="numeroNovoPedido">
+                      <Form.Label>Número</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={numero}
+                        onChange={(e) => setNumero(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={12} md={6}>
+                    <Form.Group className="mb-3" controlId="bairroNovoPedido">
+                      <Form.Label>Bairro</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={bairro}
+                        onChange={(e) => setBairro(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <Form.Group className="mb-3" controlId="cidadeNovoPedido">
+                      <Form.Label>Cidade</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={cidade}
+                        onChange={(e) => setCidade(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Form.Group className="mb-0" controlId="complementoNovoPedido">
+                  <Form.Label>Complemento (opcional)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Apto, bloco, ponto de referência"
+                    value={complemento}
+                    onChange={(e) => setComplemento(e.target.value)}
+                  />
+                </Form.Group>
+              </div>
             )}
           </>
         )}
