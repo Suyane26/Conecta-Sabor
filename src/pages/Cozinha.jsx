@@ -54,6 +54,7 @@ export default function Cozinha() {
         perfil={dados.perfil}
         colunas={COLUNAS}
         somAtivo={som}
+        ocultarEntregador
       />
     </Container>
   );
