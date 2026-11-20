@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Modal, Form, Button, Alert, Row, Col } from "react-bootstrap";
+import { Modal, Form, Button, Alert, Row, Col, Spinner } from "react-bootstrap";
 import { collection, doc, serverTimestamp, writeBatch } from "firebase/firestore";
 import { db } from "../firebase";
 import { formatarPreco } from "../utils/formatar";
@@ -15,7 +15,7 @@ export default function CarrinhoCliente({
 }) {
   // Controle das telas: 1 = Carrinho, 2 = Tela de Retirada, 3 = Tela de Entrega
   const [passo, setPasso] = useState(1);
-  
+
   const [clienteNome, setClienteNome] = useState("");
   const [clienteTelefone, setClienteTelefone] = useState("");
   const [bairro, setBairro] = useState("");
@@ -25,7 +25,9 @@ export default function CarrinhoCliente({
   const [cidade, setCidade] = useState("");
   const [complemento, setComplemento] = useState("");
   const [observacoesGerais, setObservacoesGerais] = useState("");
-  
+
+  const [buscandoCep, setBuscandoCep] = useState(false);
+  const [avisoCep, setAvisoCep] = useState("");
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
 
@@ -33,11 +35,44 @@ export default function CarrinhoCliente({
 
   // Garante que toda vez que abrir, comece pelo passo 1
   useEffect(() => {
-    if (show) setPasso(1);
+    if (show) {
+      setPasso(1);
+      setAvisoCep("");
+    }
   }, [show]);
+
+  async function buscarCepAutomatico(valorCep) {
+    const digitos = valorCep.replace(/\D/g, "").slice(0, 8);
+    const formatado =
+      digitos.length > 5 ? `${digitos.slice(0, 5)}-${digitos.slice(5)}` : digitos;
+    setCep(formatado);
+    setAvisoCep("");
+
+    if (digitos.length !== 8) return;
+
+    setBuscandoCep(true);
+    try {
+      const resp = await fetch(`https://viacep.com.br/ws/${digitos}/json/`);
+      const dadosCep = await resp.json();
+      if (dadosCep.erro) {
+        setAvisoCep("CEP não encontrado. Você pode preencher o endereço manualmente.");
+        return;
+      }
+      if (dadosCep.logradouro) setRua(dadosCep.logradouro);
+      if (dadosCep.bairro) setBairro(dadosCep.bairro);
+      if (dadosCep.localidade) {
+        setCidade(dadosCep.uf ? `${dadosCep.localidade}/${dadosCep.uf}` : dadosCep.localidade);
+      }
+    } catch {
+      setAvisoCep("Não foi possível consultar o CEP agora. Preencha manualmente se preferir.");
+    } finally {
+      setBuscandoCep(false);
+    }
+  }
 
   function fechar() {
     setErro("");
+    setAvisoCep("");
     onHide();
   }
 
@@ -59,7 +94,7 @@ export default function CarrinhoCliente({
   async function finalizar(tipoPedido) {
     setErro("");
     if (!clienteNome.trim()) return setErro("Por favor, preencha o seu nome.");
-    
+
     let enderecoCompleto = null;
     if (tipoPedido === "entrega") {
       if (!rua.trim() || !numero.trim() || !bairro.trim() || !cidade.trim() || !clienteTelefone.trim()) {
@@ -103,12 +138,10 @@ export default function CarrinhoCliente({
     setSalvando(true);
     try {
       const lote = writeBatch(db);
-      // Mantendo a lógica de retornar o ID do pedido gerado para o acompanhamento funcionar
       const novoPedidoRef = doc(collection(db, "pedidos"));
       lote.set(novoPedidoRef, pedido);
       await lote.commit();
-      
-      // Limpa tudo após o sucesso
+
       setCarrinho([]);
       setPasso(1);
       setObservacoesGerais("");
@@ -123,8 +156,6 @@ export default function CarrinhoCliente({
 
   return (
     <Modal show={show} onHide={fechar} fullscreen className="cs-modal-app">
-      
-      {/* ---------------- PASSO 1: CARRINHO E ITENS ---------------- */}
       {passo === 1 && (
         <div className="cs-tela-app">
           <div className="cs-header-app">
@@ -132,10 +163,10 @@ export default function CarrinhoCliente({
             <span className="h6 mb-0">Carrinho</span>
             <button type="button" className="btn-close" onClick={fechar} aria-label="Fechar"></button>
           </div>
-          
+
           <div className="cs-body-app pb-carrinho">
             {erro && <Alert variant="danger">{erro}</Alert>}
-            
+
             {carrinho.length === 0 ? (
               <div className="text-center mt-5 text-muted">
                 <p>Seu carrinho está vazio.</p>
@@ -150,7 +181,7 @@ export default function CarrinhoCliente({
                       + Adicionar mais itens
                     </Button>
                   </div>
-                  
+
                   {carrinho.map((item) => (
                     <div key={item.id} className="mb-3 border-bottom pb-3">
                       <div className="d-flex justify-content-between align-items-start mb-2">
@@ -209,7 +240,6 @@ export default function CarrinhoCliente({
         </div>
       )}
 
-      {/* ---------------- PASSO 2: DADOS PARA RETIRADA ---------------- */}
       {passo === 2 && (
         <Form className="cs-tela-app" onSubmit={(e) => { e.preventDefault(); finalizar("retirada"); }}>
           <div className="cs-header-app">
@@ -219,10 +249,10 @@ export default function CarrinhoCliente({
             <span className="h6 mb-0">Retirada</span>
             <span style={{ width: "24px" }}></span>
           </div>
-          
+
           <div className="cs-body-app pb-footer">
             {erro && <Alert variant="danger">{erro}</Alert>}
-            
+
             <div className="cs-box">
               <h6 className="mb-3">Identificação</h6>
               <Form.Group className="mb-3" controlId="nomeRetirada">
@@ -231,7 +261,7 @@ export default function CarrinhoCliente({
               <Form.Group className="mb-3" controlId="telRetirada">
                 <Form.Control type="tel" placeholder="Telefone" value={clienteTelefone} onChange={(e) => setClienteTelefone(e.target.value)} />
               </Form.Group>
-              
+
               <h6 className="mt-4 mb-2 d-flex align-items-center gap-2">
                 <span style={{ color: "var(--bs-primary)" }}>🚶</span> Local de retirada
               </h6>
@@ -239,7 +269,7 @@ export default function CarrinhoCliente({
                 O pedido será preparado e você poderá retirar diretamente no balcão do restaurante.
               </p>
             </div>
-            
+
             <div className="cs-box mt-3">
               <Form.Group controlId="obsRetirada">
                 <Form.Label className="fw-semibold">Observações gerais (opcional)</Form.Label>
@@ -247,7 +277,7 @@ export default function CarrinhoCliente({
               </Form.Group>
             </div>
           </div>
-          
+
           <div className="cs-footer-app shadow-lg">
             <Button type="submit" className="w-100 fw-bold py-2" disabled={salvando}>
               {salvando ? "Salvando..." : "Confirmar e Enviar Pedido"}
@@ -256,7 +286,6 @@ export default function CarrinhoCliente({
         </Form>
       )}
 
-      {/* ---------------- PASSO 3: DADOS PARA ENTREGA ---------------- */}
       {passo === 3 && (
         <Form className="cs-tela-app" onSubmit={(e) => { e.preventDefault(); finalizar("entrega"); }}>
           <div className="cs-header-app">
@@ -266,10 +295,10 @@ export default function CarrinhoCliente({
             <span className="h6 mb-0">Endereço de Entrega</span>
             <span style={{ width: "24px" }}></span>
           </div>
-          
+
           <div className="cs-body-app pb-footer">
             {erro && <Alert variant="danger">{erro}</Alert>}
-            
+
             <div className="cs-box">
               <h6 className="mb-3">Identificação</h6>
               <Form.Group className="mb-3" controlId="nomeEntrega">
@@ -282,14 +311,24 @@ export default function CarrinhoCliente({
 
             <div className="cs-box">
               <h6 className="mb-3">Endereço</h6>
-              <Form.Group className="mb-3" controlId="bairro">
-                <Form.Control type="text" placeholder="Bairro" value={bairro} onChange={(e) => setBairro(e.target.value)} required />
-              </Form.Group>
               <Form.Group className="mb-3" controlId="cep">
-                <Form.Control type="text" placeholder="CEP (Opcional)" value={cep} onChange={(e) => setCep(e.target.value)} />
+                <div className="d-flex align-items-center gap-2">
+                  <Form.Control
+                    type="text"
+                    placeholder="CEP (digite 8 números para buscar a rua)"
+                    value={cep}
+                    onChange={(e) => buscarCepAutomatico(e.target.value)}
+                    maxLength={9}
+                  />
+                  {buscandoCep && <Spinner animation="border" size="sm" />}
+                </div>
+                {avisoCep && <Form.Text className="text-warning-emphasis">{avisoCep}</Form.Text>}
               </Form.Group>
               <Form.Group className="mb-3" controlId="rua">
                 <Form.Control type="text" placeholder="Rua" value={rua} onChange={(e) => setRua(e.target.value)} required />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="bairro">
+                <Form.Control type="text" placeholder="Bairro" value={bairro} onChange={(e) => setBairro(e.target.value)} required />
               </Form.Group>
               <Row>
                 <Col xs={4}>
@@ -315,7 +354,7 @@ export default function CarrinhoCliente({
               </Form.Group>
             </div>
           </div>
-          
+
           <div className="cs-footer-app shadow-lg">
             <Button type="submit" className="w-100 fw-bold py-2" disabled={salvando}>
               {salvando ? "Salvando..." : "Confirmar e Enviar Pedido"}
