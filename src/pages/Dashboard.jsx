@@ -15,6 +15,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import RelatoriosModal from "../components/RelatoriosModal";
+import { obterTemaSalvo, aplicarTema } from "../utils/tema";
 
 const FUNCIONALIDADES = {
   dono: [
@@ -48,7 +49,12 @@ export default function Dashboard() {
   const [restaurante, setRestaurante] = useState(null);
   const [copiado, setCopiado] = useState("");
   const [mostrarRelatorios, setMostrarRelatorios] = useState(false);
+  const [tema, setTema] = useState(() => obterTemaSalvo());
   const qrRef = useRef(null);
+
+  useEffect(() => {
+    aplicarTema(tema);
+  }, [tema]);
 
   useEffect(() => {
     async function carregar() {
@@ -58,6 +64,10 @@ export default function Dashboard() {
     }
     carregar();
   }, [dados.restauranteId]);
+
+  function alternarTema() {
+    setTema((atual) => (atual === "dark" ? "light" : "dark"));
+  }
 
   function linkDe(tipo) {
     const base = window.location.origin;
@@ -86,7 +96,7 @@ export default function Dashboard() {
 
   return (
     <Container className="py-4">
-      <div className="d-flex justify-content-between align-items-start mb-4">
+      <div className="d-flex justify-content-between align-items-start gap-2 mb-4">
         <div>
           <h2 className="mb-1">
             {restaurante ? restaurante.nome : "Painel do restaurante"}
@@ -96,9 +106,14 @@ export default function Dashboard() {
           </p>
           <small className="text-muted">{usuario.email}</small>
         </div>
-        <Button variant="outline-danger" onClick={sair}>
-          Sair
-        </Button>
+        <div className="d-flex flex-wrap gap-2">
+          <Button variant="outline-secondary" onClick={alternarTema}>
+            {tema === "dark" ? "Modo claro" : "Modo escuro"}
+          </Button>
+          <Button variant="outline-danger" onClick={sair}>
+            Sair
+          </Button>
+        </div>
       </div>
 
       {dados.perfil === "dono" && (
