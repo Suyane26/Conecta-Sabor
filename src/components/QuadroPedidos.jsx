@@ -3,6 +3,7 @@ import { Row, Col, Button, Form, Alert, Spinner } from "react-bootstrap";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import CartaoPedido from "./CartaoPedido";
+import NotaFiscalModal from "./NotaFiscalModal";
 import { useAgora, usePedidosAtivos } from "../hooks/usePedidosAtivos";
 import {
   podeAvancar,
@@ -21,10 +22,12 @@ export default function QuadroPedidos({
   entregadores = [],
   somAtivo = false,
   mostrarTotal = false,
+  ocultarEntregador = false,
 }) {
   const { pedidos, carregando } = usePedidosAtivos(restauranteId);
   const agora = useAgora();
   const [erro, setErro] = useState("");
+  const [pedidoNota, setPedidoNota] = useState(null);
   const vistos = useRef(null);
 
   useEffect(() => {
@@ -91,6 +94,8 @@ export default function QuadroPedidos({
     );
   }
 
+  const bloquearEntregador = ocultarEntregador || perfil === "cozinha";
+
   return (
     <>
       {erro && (
@@ -123,9 +128,11 @@ export default function QuadroPedidos({
                     pedido={pedido}
                     agora={agora}
                     mostrarTotal={mostrarTotal}
+                    ocultarEntregador={bloquearEntregador}
                     acoes={
                       <div className="d-grid gap-2 mt-2">
-                        {pedido.tipo === "entrega" &&
+                        {!bloquearEntregador &&
+                          pedido.tipo === "entrega" &&
                           podeGerenciar(perfil) &&
                           ANTES_DE_SAIR.includes(pedido.status) && (
                             <Form.Select
@@ -148,6 +155,16 @@ export default function QuadroPedidos({
                           </Button>
                         )}
 
+                        {mostrarTotal && pedido.status !== "cancelado" && (
+                          <Button
+                            size="sm"
+                            variant="outline-success"
+                            onClick={() => setPedidoNota(pedido)}
+                          >
+                            Nota Fiscal (NFC-e)
+                          </Button>
+                        )}
+
                         {podeGerenciar(perfil) &&
                           ANTES_DE_SAIR.includes(pedido.status) && (
                             <Button
@@ -167,6 +184,12 @@ export default function QuadroPedidos({
           );
         })}
       </Row>
+
+      <NotaFiscalModal
+        show={Boolean(pedidoNota)}
+        onHide={() => setPedidoNota(null)}
+        pedido={pedidoNota}
+      />
     </>
   );
 }
