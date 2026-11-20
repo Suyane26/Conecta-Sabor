@@ -1,177 +1,279 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Space+Grotesk:wght@500;600;700&display=swap");
 
 :root {
-  /* Cores do projeto */
-  --cs-marrom: #5a372c;
-  --cs-oliva: #8b8b70;
-  --cs-menta: #98c7b0;
-  --cs-creme: #f0f0d8;
-  --cs-laranja: #c94b0c;
+  /* Paleta Ember POS System */
+  --cs-canvas: #121214;
+  --cs-superficie-1: #1e1e24;
+  --cs-superficie-2: #26262f;
+  --cs-superficie-3: #32323d;
+  --cs-borda: #2e2e38;
+  --cs-borda-forte: #3e3e4d;
 
-  /* Cores derivadas da paleta */
-  --cs-laranja-escuro: color-mix(in srgb, var(--cs-laranja) 82%, #000);
-  --cs-borda: color-mix(in srgb, var(--cs-oliva) 40%, var(--cs-creme));
-  --cs-superficie: #ffffff;
-  --cs-sombra: 0 2px 12px rgba(90, 55, 44, 0.08);
+  --cs-texto: #ffffff;
+  --cs-texto-secundario: #e4e4e7;
+  --cs-texto-mutado: #a1a1aa;
 
-  color-scheme: light;
+  --cs-verde: #10b981;
+  --cs-verde-escuro: #059669;
+  --cs-laranja: #ea580c;
+  --cs-laranja-escuro: #c2410c;
+  --cs-ambar: #f59e0b;
+  --cs-perigo: #ef4444;
 
-  /* Variáveis do Bootstrap trocadas pelas do projeto */
-  --bs-body-font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --bs-body-bg: #f0f0d8;
-  --bs-body-bg-rgb: 240, 240, 216;
-  --bs-body-color: #5a372c;
-  --bs-body-color-rgb: 90, 55, 44;
-  --bs-heading-color: #5a372c;
-  --bs-secondary-color: rgba(90, 55, 44, 0.75);
-  --bs-border-color: var(--cs-borda);
+  --cs-sombra: 0 2px 12px rgba(0, 0, 0, 0.35);
+
+  color-scheme: dark;
+
+  /* Variáveis do Bootstrap adaptadas ao tema dark */
+  --bs-body-font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --bs-body-bg: #121214;
+  --bs-body-bg-rgb: 18, 18, 20;
+  --bs-body-color: #ffffff;
+  --bs-body-color-rgb: 255, 255, 255;
+  --bs-heading-color: #ffffff;
+  --bs-secondary-color: #a1a1aa;
+  --bs-tertiary-bg: #26262f;
+  --bs-border-color: #2e2e38;
   --bs-border-radius: 0.75rem;
   --bs-border-radius-lg: 1rem;
 
-  --bs-primary: #c94b0c;
-  --bs-primary-rgb: 201, 75, 12;
-  --bs-secondary: #5a372c;
-  --bs-secondary-rgb: 90, 55, 44;
-  --bs-success: #98c7b0;
-  --bs-success-rgb: 152, 199, 176;
-  --bs-light-rgb: 240, 240, 216;
-  --bs-dark-rgb: 90, 55, 44;
+  --bs-primary: #10b981;
+  --bs-primary-rgb: 16, 185, 129;
+  --bs-secondary: #26262f;
+  --bs-secondary-rgb: 38, 38, 47;
+  --bs-success: #10b981;
+  --bs-success-rgb: 16, 185, 129;
+  --bs-warning: #f59e0b;
+  --bs-warning-rgb: 245, 158, 11;
+  --bs-danger: #ef4444;
+  --bs-danger-rgb: 239, 68, 68;
+  --bs-light: #26262f;
+  --bs-light-rgb: 38, 38, 47;
+  --bs-dark: #1e1e24;
+  --bs-dark-rgb: 30, 30, 36;
 
-  --bs-link-color: #c94b0c;
-  --bs-link-color-rgb: 201, 75, 12;
-  --bs-link-hover-color: #a53d09;
-  --bs-link-hover-color-rgb: 165, 61, 10;
+  --bs-link-color: #4edea3;
+  --bs-link-color-rgb: 78, 222, 163;
+  --bs-link-hover-color: #10b981;
+  --bs-link-hover-color-rgb: 16, 185, 129;
 }
 
 /* ---------- 2. Base ---------- */
 body {
   min-height: 100vh;
+  background-color: var(--cs-canvas);
+  color: var(--cs-texto);
+  font-family: var(--bs-body-font-family);
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  letter-spacing: -0.01em;
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+  font-family: "Space Grotesk", var(--bs-body-font-family);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--cs-texto);
+}
+
+.fw-bold, .fs-5, .fs-6 {
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 ::selection {
-  background: var(--cs-menta);
-  color: var(--cs-marrom);
+  background: rgba(16, 185, 129, 0.3);
+  color: #ffffff;
+}
+
+.btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
 }
 
 /* ---------- 3. Botões ---------- */
 .btn {
-  font-weight: 500;
+  font-weight: 600;
+  min-height: 38px;
+  transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn-primary {
-  --bs-btn-bg: var(--cs-laranja);
-  --bs-btn-border-color: var(--cs-laranja);
-  --bs-btn-hover-bg: var(--cs-laranja-escuro);
-  --bs-btn-hover-border-color: var(--cs-laranja-escuro);
-  --bs-btn-active-bg: var(--cs-laranja-escuro);
-  --bs-btn-active-border-color: var(--cs-laranja-escuro);
-  --bs-btn-disabled-bg: var(--cs-laranja);
-  --bs-btn-disabled-border-color: var(--cs-laranja);
-  --bs-btn-focus-shadow-rgb: 201, 75, 12;
+  --bs-btn-color: #06281e;
+  --bs-btn-bg: var(--cs-verde);
+  --bs-btn-border-color: var(--cs-verde);
+  --bs-btn-hover-color: #041d15;
+  --bs-btn-hover-bg: var(--cs-verde-escuro);
+  --bs-btn-hover-border-color: var(--cs-verde-escuro);
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: var(--cs-verde-escuro);
+  --bs-btn-active-border-color: var(--cs-verde-escuro);
+  --bs-btn-disabled-bg: rgba(16, 185, 129, 0.45);
+  --bs-btn-disabled-border-color: rgba(16, 185, 129, 0.45);
+  --bs-btn-focus-shadow-rgb: 16, 185, 129;
 }
 
 .btn-outline-primary {
-  --bs-btn-color: var(--cs-laranja);
-  --bs-btn-border-color: var(--cs-laranja);
-  --bs-btn-hover-bg: var(--cs-laranja);
-  --bs-btn-hover-border-color: var(--cs-laranja);
-  --bs-btn-active-bg: var(--cs-laranja-escuro);
-  --bs-btn-active-border-color: var(--cs-laranja-escuro);
-  --bs-btn-disabled-color: var(--cs-laranja);
-  --bs-btn-disabled-border-color: var(--cs-laranja);
-  --bs-btn-focus-shadow-rgb: 201, 75, 12;
+  --bs-btn-color: #4edea3;
+  --bs-btn-border-color: var(--cs-verde);
+  --bs-btn-hover-color: #06281e;
+  --bs-btn-hover-bg: var(--cs-verde);
+  --bs-btn-hover-border-color: var(--cs-verde);
+  --bs-btn-active-color: #06281e;
+  --bs-btn-active-bg: var(--cs-verde-escuro);
+  --bs-btn-active-border-color: var(--cs-verde-escuro);
+  --bs-btn-disabled-color: var(--cs-verde);
+  --bs-btn-disabled-border-color: var(--cs-verde);
+  --bs-btn-focus-shadow-rgb: 16, 185, 129;
 }
 
 .btn-outline-secondary {
-  --bs-btn-color: var(--cs-marrom);
-  --bs-btn-border-color: var(--cs-oliva);
-  --bs-btn-hover-color: var(--cs-marrom);
-  --bs-btn-hover-bg: var(--cs-creme);
-  --bs-btn-hover-border-color: var(--cs-marrom);
-  --bs-btn-active-color: var(--cs-marrom);
-  --bs-btn-active-bg: var(--cs-creme);
-  --bs-btn-active-border-color: var(--cs-marrom);
-  --bs-btn-disabled-color: var(--cs-oliva);
-  --bs-btn-disabled-border-color: var(--cs-oliva);
-  --bs-btn-focus-shadow-rgb: 90, 55, 44;
+  --bs-btn-color: var(--cs-texto-secundario);
+  --bs-btn-border-color: var(--cs-borda-forte);
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: var(--cs-superficie-3);
+  --bs-btn-hover-border-color: var(--cs-borda-forte);
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: var(--cs-superficie-3);
+  --bs-btn-active-border-color: var(--cs-borda-forte);
+  --bs-btn-disabled-color: var(--cs-texto-mutado);
+  --bs-btn-disabled-border-color: var(--cs-borda);
+  --bs-btn-focus-shadow-rgb: 161, 161, 170;
 }
 
 .btn-success {
-  --bs-btn-color: var(--cs-marrom);
-  --bs-btn-bg: var(--cs-menta);
-  --bs-btn-border-color: var(--cs-menta);
-  --bs-btn-hover-color: var(--cs-marrom);
-  --bs-btn-hover-bg: color-mix(in srgb, var(--cs-menta) 82%, #000);
-  --bs-btn-hover-border-color: color-mix(in srgb, var(--cs-menta) 82%, #000);
-  --bs-btn-active-color: var(--cs-marrom);
-  --bs-btn-active-bg: color-mix(in srgb, var(--cs-menta) 75%, #000);
-  --bs-btn-active-border-color: color-mix(in srgb, var(--cs-menta) 75%, #000);
-  --bs-btn-focus-shadow-rgb: 152, 199, 176;
+  --bs-btn-color: #ffffff;
+  --bs-btn-bg: var(--cs-verde);
+  --bs-btn-border-color: var(--cs-verde);
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: var(--cs-verde-escuro);
+  --bs-btn-hover-border-color: var(--cs-verde-escuro);
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: var(--cs-verde-escuro);
+  --bs-btn-active-border-color: var(--cs-verde-escuro);
+  --bs-btn-focus-shadow-rgb: 16, 185, 129;
+}
+
+.btn-outline-success {
+  --bs-btn-color: #4edea3;
+  --bs-btn-border-color: var(--cs-verde);
+  --bs-btn-hover-color: #06281e;
+  --bs-btn-hover-bg: var(--cs-verde);
+  --bs-btn-hover-border-color: var(--cs-verde);
 }
 
 .btn-link {
-  --bs-btn-color: var(--cs-laranja);
-  --bs-btn-hover-color: var(--cs-laranja-escuro);
-  --bs-btn-active-color: var(--cs-laranja-escuro);
+  --bs-btn-color: #4edea3;
+  --bs-btn-hover-color: var(--cs-verde);
+  --bs-btn-active-color: var(--cs-verde);
 }
 
-/* ---------- 4. Formulários ---------- */
+/* ---------- 4. Formulários e Tabelas ---------- */
 .form-label {
   font-weight: 500;
+  color: var(--cs-texto-secundario);
 }
 
 .form-control,
 .form-select {
-  background-color: #fff;
+  background-color: var(--cs-superficie-1);
   border-color: var(--cs-borda);
-  color: var(--cs-marrom);
+  color: var(--cs-texto);
+  min-height: 42px;
 }
 
 .form-control::placeholder {
-  color: var(--cs-oliva);
+  color: var(--cs-texto-mutado);
   opacity: 1;
 }
 
 .form-control:focus,
 .form-select:focus {
-  border-color: var(--cs-laranja);
-  box-shadow: 0 0 0 0.25rem rgba(201, 75, 12, 0.2);
+  background-color: var(--cs-superficie-2);
+  border-color: var(--cs-verde);
+  color: var(--cs-texto);
+  box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.2);
 }
 
 .form-control[readonly] {
-  background-color: color-mix(in srgb, var(--cs-creme) 45%, #fff);
+  background-color: var(--cs-superficie-2);
+  color: var(--cs-texto-secundario);
+}
+
+.form-check-input {
+  background-color: var(--cs-superficie-2);
+  border-color: var(--cs-borda-forte);
 }
 
 .form-check-input:checked {
-  background-color: var(--cs-laranja);
-  border-color: var(--cs-laranja);
+  background-color: var(--cs-verde);
+  border-color: var(--cs-verde);
 }
 
-.form-check-input:focus {
-  border-color: var(--cs-laranja);
-  box-shadow: 0 0 0 0.25rem rgba(201, 75, 12, 0.2);
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--cs-texto);
+  --bs-table-border-color: var(--cs-borda);
+  --bs-table-hover-bg: var(--cs-superficie-2);
+  --bs-table-hover-color: var(--cs-texto);
 }
 
-/* ---------- 5. Cards, alertas, badges e carregamento ---------- */
+.table-light,
+.table-light > th,
+.table-light > td {
+  --bs-table-bg: var(--cs-superficie-2);
+  --bs-table-color: var(--cs-texto-secundario);
+}
+
+.bg-light {
+  background-color: var(--cs-superficie-2) !important;
+  color: var(--cs-texto) !important;
+}
+
+.text-dark {
+  color: var(--cs-texto) !important;
+}
+
+/* ---------- 5. Cards, Modais, Alertas e Badges ---------- */
 .card {
-  --bs-card-bg: var(--cs-superficie);
-  --bs-card-border-color: var(--cs-borda);
-  --bs-card-cap-bg: color-mix(in srgb, var(--cs-creme) 55%, #fff);
-  --bs-card-cap-color: var(--cs-marrom);
+  background-color: var(--cs-superficie-1);
+  color: var(--cs-texto);
+  border-color: var(--cs-borda);
   box-shadow: var(--cs-sombra);
 }
 
 .card-header {
+  background-color: var(--cs-superficie-2);
+  color: var(--cs-texto);
+  border-bottom-color: var(--cs-borda);
   font-weight: 600;
 }
 
-/* Cards clicáveis (ex.: escolha do tipo de cadastro) */
+.modal-content {
+  background-color: var(--cs-superficie-1);
+  color: var(--cs-texto);
+  border: 1px solid var(--cs-borda-forte);
+}
+
+.modal-header,
+.modal-footer {
+  border-color: var(--cs-borda);
+}
+
+.nav-tabs {
+  border-bottom-color: var(--cs-borda);
+}
+
+.nav-tabs .nav-link {
+  color: var(--cs-texto-mutado);
+}
+
+.nav-tabs .nav-link.active {
+  color: #ffffff;
+  background-color: var(--cs-superficie-2);
+  border-color: var(--cs-borda) var(--cs-borda) var(--cs-superficie-2);
+}
+
 .card[role="button"] {
   transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -179,18 +281,18 @@ h1, h2, h3, h4, h5, h6 {
 .card[role="button"]:hover {
   transform: translateY(-2px);
   border-color: var(--cs-laranja);
-  box-shadow: 0 6px 18px rgba(201, 75, 12, 0.15);
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.2);
 }
 
 .alert-success,
 .alert-info {
-  --bs-alert-color: var(--cs-marrom);
-  --bs-alert-bg: color-mix(in srgb, var(--cs-menta) 35%, #fff);
-  --bs-alert-border-color: var(--cs-menta);
+  background-color: rgba(16, 185, 129, 0.14);
+  color: #6ffbbe;
+  border-color: rgba(16, 185, 129, 0.35);
 }
 
 .badge {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .spinner-border {
@@ -201,25 +303,22 @@ h1, h2, h3, h4, h5, h6 {
   --bs-list-group-border-color: var(--cs-borda);
 }
 
-/* ---------- 6. Componentes prontos para as próximas telas ---------- */
-
-/* Faixa de destaque (promoção, aviso) */
+/* ---------- 6. Componentes do Sistema ---------- */
 .cs-faixa {
   background: var(--cs-laranja);
-  color: #fff;
+  color: #ffffff;
   padding: 0.5rem 1rem;
   text-align: center;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-/* Barra superior escura do painel */
 .cs-topo {
-  background: var(--cs-marrom);
-  color: var(--cs-creme);
+  background: var(--cs-superficie-1);
+  color: var(--cs-texto);
+  border-bottom: 1px solid var(--cs-borda);
 }
 
-/* Abas de categorias do cardápio */
 .cs-categorias {
   display: flex;
   gap: 0.5rem;
@@ -230,34 +329,35 @@ h1, h2, h3, h4, h5, h6 {
 
 .cs-chip {
   flex: 0 0 auto;
-  background: #fff;
-  color: var(--cs-marrom);
+  background: var(--cs-superficie-1);
+  color: var(--cs-texto-secundario);
   border: 1px solid var(--cs-borda);
   border-radius: 999px;
-  padding: 0.35rem 0.9rem;
+  padding: 0.4rem 0.95rem;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
 }
 
 .cs-chip:hover {
   border-color: var(--cs-laranja);
+  color: #ffffff;
 }
 
 .cs-chip.ativo {
-  color: var(--cs-laranja);
+  color: #ffffff;
   border-color: var(--cs-laranja);
-  background: color-mix(in srgb, var(--cs-laranja) 8%, #fff);
+  background: var(--cs-laranja);
 }
 
-/* Item do cardápio */
 .cs-produto {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  background: #fff;
+  height: 100%;
+  background: var(--cs-superficie-1);
   border: 1px solid var(--cs-borda);
   border-radius: var(--bs-border-radius);
   padding: 0.9rem;
@@ -272,120 +372,41 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
 }
 
-.cs-produto-nome {
-  font-weight: 600;
-  margin: 0;
-}
-
-.cs-produto-desc {
-  color: var(--bs-secondary-color);
-  font-size: 0.8125rem;
-  margin: 0.15rem 0 0.4rem;
-}
-
-.cs-preco {
-  color: var(--cs-laranja);
-  font-weight: 700;
-}
-
-.cs-preco-antigo {
-  color: var(--cs-oliva);
-  font-size: 0.8125rem;
-  text-decoration: line-through;
-  margin-left: 0.4rem;
-}
-
-/* Botão quadrado de adicionar ao carrinho */
-.cs-botao-add {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border: 0;
-  border-radius: 0.5rem;
-  background: var(--cs-laranja);
-  color: #fff;
-  font-size: 1.25rem;
-  line-height: 1;
-}
-
-.cs-botao-add:hover {
-  background: var(--cs-laranja-escuro);
-}
-
-/* Coluna do painel de pedidos */
-.cs-coluna {
-  background: color-mix(in srgb, var(--cs-creme) 60%, #fff);
-  border: 1px solid var(--cs-borda);
-  border-radius: var(--bs-border-radius);
-  padding: 0.75rem;
-}
-
-/* Etiquetas de status do pedido: use class="cs-status cs-status-{status}" */
-.cs-status {
-  display: inline-block;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.cs-status-recebido {
-  background: var(--cs-creme);
-  color: var(--cs-marrom);
-  border: 1px solid var(--cs-oliva);
-}
-
-.cs-status-em_preparo {
-  background: color-mix(in srgb, var(--cs-laranja) 14%, #fff);
-  color: var(--cs-laranja-escuro);
-}
-
-.cs-status-pronto {
-  background: var(--cs-menta);
-  color: var(--cs-marrom);
-}
-
-.cs-status-saiu_entrega {
-  background: var(--cs-marrom);
-  color: var(--cs-creme);
-}
-
-.cs-status-entregue {
-  background: color-mix(in srgb, var(--cs-menta) 30%, #fff);
-  color: var(--cs-marrom);
-  border: 1px solid var(--cs-menta);
-}
-
-.cs-status-cancelado {
-  background: #fff;
-  color: var(--cs-marrom);
-  border: 1px dashed var(--cs-oliva);
-}
-/* ---------- 7. Cardápio ---------- */
-.cs-secao-titulo {
-  color: var(--cs-laranja);
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-}
-
-.cs-produto {
-  align-items: flex-start;
-  height: 100%;
-}
-
 .cs-produto-corpo {
   flex: 1;
   min-width: 0;
 }
 
+.cs-produto-nome {
+  font-family: "Space Grotesk", var(--bs-body-font-family);
+  font-weight: 700;
+  color: var(--cs-texto);
+  margin: 0;
+}
+
 .cs-produto-desc {
+  color: var(--cs-texto-mutado);
+  font-size: 0.8125rem;
+  margin: 0.15rem 0 0.4rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   overflow: hidden;
+}
+
+.cs-preco {
+  font-family: "Space Grotesk", var(--bs-body-font-family);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--cs-verde);
+  font-weight: 700;
+}
+
+.cs-preco-antigo {
+  color: var(--cs-texto-mutado);
+  font-size: 0.8125rem;
+  text-decoration: line-through;
+  margin-left: 0.4rem;
 }
 
 .cs-produto-sem-foto {
@@ -396,15 +417,15 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   border-radius: 0.6rem;
-  background: var(--cs-creme);
-  color: var(--cs-oliva);
+  background: var(--cs-superficie-2);
+  color: var(--cs-texto-mutado);
   font-size: 0.6875rem;
   text-align: center;
 }
 
 .cs-produto.indisponivel img,
 .cs-produto.indisponivel .cs-produto-info {
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
 .cs-produto.indisponivel img {
@@ -412,79 +433,153 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cs-botao-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
   align-self: flex-end;
   flex-shrink: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--cs-verde);
+  color: #06281e;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cs-botao-add:hover {
+  background: var(--cs-verde-escuro);
+  color: #ffffff;
 }
 
 .cs-selo {
   display: inline-block;
-  padding: 0.1rem 0.45rem;
+  padding: 0.15rem 0.5rem;
   border-radius: 0.35rem;
   background: var(--cs-laranja);
-  color: #fff;
+  color: #ffffff;
   font-size: 0.6875rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .cs-selo-combo {
-  background: var(--cs-marrom);
-  color: var(--cs-creme);
+  background: var(--cs-ambar);
+  color: #121214;
 }
 
 .cs-selo-off {
-  background: #fff;
-  color: var(--cs-marrom);
-  border: 1px solid var(--cs-oliva);
-}
-/* ---------- 8. Pedidos, cozinha e mesas ---------- */
-.cs-pedido {
-  background: #fff;
+  background: var(--cs-superficie-2);
+  color: var(--cs-texto-secundario);
   border: 1px solid var(--cs-borda);
-  border-radius: 0.6rem;
-  padding: 0.75rem;
+}
+
+/* ---------- 7. Pedidos, cozinha e mesas ---------- */
+.cs-coluna {
+  background: var(--cs-superficie-1);
+  border: 1px solid var(--cs-borda);
+  border-radius: var(--bs-border-radius);
+  padding: 0.85rem;
+}
+
+.cs-status {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.cs-status-recebido {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.cs-status-em_preparo {
+  background: rgba(234, 88, 12, 0.22);
+  color: #fdba74;
+  border: 1px solid rgba(234, 88, 12, 0.45);
+}
+
+.cs-status-pronto {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ffbbe;
+  border: 1px solid rgba(16, 185, 129, 0.45);
+}
+
+.cs-status-saiu_entrega {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.45);
+}
+
+.cs-status-entregue,
+.cs-status-finalizado {
+  background: rgba(16, 185, 129, 0.22);
+  color: #6ffbbe;
+  border: 1px solid rgba(16, 185, 129, 0.45);
+}
+
+.cs-status-cancelado {
+  background: rgba(239, 68, 68, 0.18);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.cs-secao-titulo {
+  color: var(--cs-laranja);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.cs-pedido {
+  background: var(--cs-superficie-2);
+  border: 1px solid var(--cs-borda);
+  border-radius: 0.65rem;
+  padding: 0.8rem;
   margin-bottom: 0.75rem;
   box-shadow: var(--cs-sombra);
 }
 
 .cs-pedido-atrasado {
-  border-color: var(--bs-danger);
-  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+  border-color: var(--cs-laranja);
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.35);
 }
 
 .cs-obs {
-  background: color-mix(in srgb, var(--cs-laranja) 10%, #fff);
-  border-left: 3px solid var(--cs-laranja);
+  background: rgba(245, 158, 11, 0.14);
+  border-left: 3px solid var(--cs-ambar);
+  color: #fde68a;
   border-radius: 0.25rem;
-  padding: 0.15rem 0.5rem;
-  margin-top: 0.15rem;
+  padding: 0.2rem 0.55rem;
+  margin-top: 0.2rem;
   font-size: 0.8125rem;
 }
 
 .cs-selo-atrasado {
-  background: var(--bs-danger);
-  color: #fff;
+  background: var(--cs-laranja);
+  color: #ffffff;
 }
 
 .cs-selo-livre {
-  background: var(--cs-menta);
-  color: var(--cs-marrom);
-}
-
-.cs-status-finalizado {
-  background: color-mix(in srgb, var(--cs-menta) 30%, #fff);
-  color: var(--cs-marrom);
-  border: 1px solid var(--cs-menta);
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ffbbe;
 }
 
 .cs-mesa.livre {
-  border-color: var(--cs-menta);
+  border-color: var(--cs-verde);
 }
 
 .cs-mesa.ocupada {
   border-color: var(--cs-laranja);
-  background: color-mix(in srgb, var(--cs-laranja) 8%, #fff);
+  background: rgba(234, 88, 12, 0.12);
 }
-/* ---------- 9. Carrinho Mobile ---------- */
+
+/* ---------- 8. Carrinho Mobile e Telas Fullscreen ---------- */
 .cs-btn-flutuante {
   position: fixed;
   bottom: 1.5rem;
@@ -493,60 +588,159 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1050;
   width: calc(100% - 2rem);
   max-width: 460px;
-  box-shadow: 0 4px 12px rgba(201, 75, 12, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
   border-radius: var(--bs-border-radius);
 }
 
 .cs-btn-flutuante button {
   border-radius: var(--bs-border-radius);
 }
-/* ---------- 10. Telas Fullscreen Mobile (Estilo Aplicativo) ---------- */
+
 .cs-modal-app .modal-content {
-  background-color: #f4f4f4;
+  background-color: var(--cs-canvas);
   border: none;
   border-radius: 0;
 }
+
 .cs-tela-app {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #f4f4f4;
+  background-color: var(--cs-canvas);
 }
+
 .cs-header-app {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background: #ffffff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  background: var(--cs-superficie-1);
+  border-bottom: 1px solid var(--cs-borda);
   position: sticky;
   top: 0;
   z-index: 1055;
 }
+
 .cs-body-app {
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
 }
+
 .cs-body-app.pb-carrinho {
-  padding-bottom: 130px; /* espaço extra para rodapé duplo */
+  padding-bottom: 130px;
 }
+
 .cs-body-app.pb-footer {
-  padding-bottom: 90px; /* espaço extra para rodapé simples */
+  padding-bottom: 90px;
 }
+
 .cs-box {
-  background: #ffffff;
-  border-radius: 0.5rem;
+  background: var(--cs-superficie-1);
+  border: 1px solid var(--cs-borda);
+  border-radius: 0.65rem;
   padding: 1.25rem;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: var(--cs-sombra);
 }
+
 .cs-footer-app {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: #ffffff;
+  background: var(--cs-superficie-1);
   padding: 1rem;
-  border-top: 1px solid var(--cs-borda);
+  border-top: 1px solid var(--cs-borda-forte);
   z-index: 1055;
+}
+/* ---------- 9. Modo Claro (Opcional) ---------- */
+:root[data-cs-tema="light"] {
+  --cs-canvas: #f6f6f4;
+  --cs-superficie-1: #ffffff;
+  --cs-superficie-2: #f1f1ef;
+  --cs-superficie-3: #e5e5e2;
+  --cs-borda: #dcdcd7;
+  --cs-borda-forte: #c7c7c0;
+
+  --cs-texto: #18181b;
+  --cs-texto-secundario: #27272a;
+  --cs-texto-mutado: #52525b;
+
+  --cs-sombra: 0 2px 10px rgba(0, 0, 0, 0.06);
+
+  color-scheme: light;
+
+  --bs-body-bg: #f6f6f4;
+  --bs-body-bg-rgb: 246, 246, 244;
+  --bs-body-color: #18181b;
+  --bs-body-color-rgb: 24, 24, 27;
+  --bs-heading-color: #18181b;
+  --bs-secondary-color: #52525b;
+  --bs-tertiary-bg: #f1f1ef;
+  --bs-border-color: #dcdcd7;
+
+  --bs-link-color: #059669;
+  --bs-link-color-rgb: 5, 150, 105;
+  --bs-link-hover-color: #ea580c;
+  --bs-link-hover-color-rgb: 234, 88, 12;
+}
+
+:root[data-cs-tema="light"] body {
+  background-color: var(--cs-canvas);
+  color: var(--cs-texto);
+}
+
+:root[data-cs-tema="light"] .btn-close {
+  filter: none;
+}
+
+:root[data-cs-tema="light"] .bg-light {
+  background-color: #f1f1ef !important;
+  color: #18181b !important;
+}
+
+:root[data-cs-tema="light"] .text-dark {
+  color: #18181b !important;
+}
+
+:root[data-cs-tema="light"] .cs-chip {
+  background: #ffffff;
+  color: #27272a;
+}
+
+:root[data-cs-tema="light"] .cs-chip.ativo {
+  background: var(--cs-laranja);
+  color: #ffffff;
+}
+
+:root[data-cs-tema="light"] .cs-status-recebido {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fcd34d;
+}
+
+:root[data-cs-tema="light"] .cs-status-em_preparo {
+  background: #ffedd5;
+  color: #9a3412;
+  border-color: #fdba74;
+}
+
+:root[data-cs-tema="light"] .cs-status-pronto,
+:root[data-cs-tema="light"] .cs-status-entregue,
+:root[data-cs-tema="light"] .cs-status-finalizado {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #6ee7b7;
+}
+
+:root[data-cs-tema="light"] .cs-status-saiu_entrega {
+  background: #dbeafe;
+  color: #1e40af;
+  border-color: #93c5fd;
+}
+
+:root[data-cs-tema="light"] .cs-status-cancelado {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fca5a5;
 }
